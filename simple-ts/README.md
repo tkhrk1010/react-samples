@@ -3,4 +3,4 @@
 $ npx create-react-app . --template typescript
 
 ## Quick Start
-$ make start
+$ make up
