@@ -8,6 +8,8 @@ React sample apps
 | [Docker Hello TS](./docker-hello-ts) | A simple Dockerized TypeScript app in React |
 | [Simple TS](./simple-ts) | A simple TypeScript app in React |
 | [Simple TS Nginx](./simple-ts-nginx) | A simple React app with TypeScript and Nginx |
+| [API and Front](./api-and-front) | A project combining backend API and frontend in React |
+
 
 
 
