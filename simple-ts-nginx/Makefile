@@ -1,4 +1,4 @@
-start:
+up:
 	docker-compose up
 
 down:
