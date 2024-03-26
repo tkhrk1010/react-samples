@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 
-// APIからデータを取得する関数
-const fetchApiData = async (): Promise<string> => {
+interface Item {
+  id: number;
+  name: string;
+}
+
+// APIからデータを取得する関数をJSON形式で取得するように更新
+const fetchApiData = async (): Promise<Item[]> => {
   try {
     const response = await fetch('http://localhost:8080/');
-    const data = await response.text();
+    const data: Item[] = await response.json();
     return data;
   } catch (error) {
     console.error("Fetching API data failed:", error);
-    return "Error fetching data";
+    // エラーハンドリングを改善する場合は適切なエラー処理を追加
+    return [];
   }
 }
 
@@ -18,20 +24,39 @@ function hello(name: string) {
   return `Hello, ${name}!`;
 }
 
-// APIから取得したデータを表示するコンポーネント
+// APIから取得したデータを表形式で表示するコンポーネントに書き換え
 const ApiData: React.FC = () => {
-  const [apiResponse, setApiResponse] = useState('');
+  const [items, setItems] = useState<Item[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetchApiData();
-      setApiResponse(data);
+      setItems(data);
     };
     
     fetchData();
   }, []);
 
-  return <p>API Response: {apiResponse}</p>;
+  return (
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          {items.map(item => (
+            <tr key={item.id}>
+              <td>{item.id}</td>
+              <td>{item.name}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 }
 
 // Appコンポーネント
