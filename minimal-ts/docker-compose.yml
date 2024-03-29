@@ -1,0 +1,18 @@
+version: '3.9'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+    environment:
+      - NODE_ENV=development
+      # cacheで少しでも高速化するため、buildkitを有効にする。もしかしたら不要？
+      - DOCKER_BUILDKIT=1
+    volumes:
+      - .:/app
+      # localのnode_modulesの変更をコンテナに反映されないように、空のnode_modulesをマウント
+      - /app/node_modules
+
+    command: npm start
