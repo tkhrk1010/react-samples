@@ -8,6 +8,13 @@ services:
       - "5173:5173"
     volumes:
       - .:/app
-      # localのnode_modulesの変更をコンテナに反映されないように、空のnode_modulesをマウント
-      - /app/node_modules
+      # volume mount先を変えることで、directory上にnode_modulesが現れないようにする
+      # volume mountできると同時に、docker volumeを削除したら、node_modulesも消えてくれる
+      - node_modules:/app/node_modules
     command: npm run dev
+
+# docker host上にdataを残すための名前付きvolume
+# 全てのコンテナが共有する
+# 他のprojectでも、node_modulesという名前のvolumeを指定したら、それが使われる
+volumes:
+  node_modules:
