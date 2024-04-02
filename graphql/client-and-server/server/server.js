@@ -5,20 +5,23 @@ const { buildSchema } = require("graphql");
 // GraphQLスキーマ定義
 const schema = buildSchema(`
   type Query {
-    countries: [Country]
+    posts: [Post]
   }
   
-  type Country {
-    name: String
+  type Post {
+    id: Int
+    title: String
+    content: String
   }
 `);
 
 // ルートリゾルバ
-// countriesリゾルバはCountry型のオブジェクトの配列を返すように修正
+// postsリゾルバはPost型のオブジェクトの配列を返すように修正
 const root = {
-  countries: () => {
+  posts: () => {
     return [
-      { name: "Hello world!" },
+      { id: 1, title: "GraphQL", content: "first content" },
+      { id: 2, title: "REST API", content: "second content" },
     ];
   },
 };

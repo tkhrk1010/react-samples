@@ -16,35 +16,43 @@ const client = createClient({
   ]
 });
 
-const countriesQuery = `
-  query allCountries {
-    countries {
-      name
+const postsQuery = `
+  query allPosts {
+    posts {
+      id
+      title
+      content
     }
   }
 `;
 
-type Country = {
-  name: string;
+// 修正後のPost型
+type Post = {
+  id: string; // もしIDが数字なら、number型に変更してください。
+  title: string;
+  content: string;
 };
 
-const Countries = () => {
+const Posts = () => {
   const [result] = useQuery({
-    query: countriesQuery
+    query: postsQuery
   });
-  const [countryName, setCountryName] = useState<string | null>(null);
+  const [postId, setPostId] = useState<number | null>(null); // 修正: 型をnumberに変更
 
   if (result.fetching) return <p>Loading...</p>;
   if (result.error) return <p>Error: {result.error.message}</p>;
 
   return (
     <div>
-      {result.data && result.data.countries.map((country: Country) => (
-        <div key={country.name} onClick={() => setCountryName(country.name)}>
-          {country.name}
+      {result.data && result.data.posts.map((post: Post) => (
+        <div key={post.id} onClick={() => setPostId(Number(post.id))}> {/* 型変換を追加 */}
+          {/* 修正: 個別に表示 */}
+          <p>ID: {post.id}</p>
+          <p>Title: {post.title}</p>
+          <p>Content: {post.content}</p>
         </div>
       ))}
-      {countryName && <p>Selected Country: {countryName}</p>}
+      {postId && <p>Selected Post: {postId}</p>}
     </div>
   );
 };
@@ -54,7 +62,7 @@ const App = () => {
     <Provider value={client}>
       <div>
         <h1>URQL Example</h1>
-        <Countries />
+        <Posts />
       </div>
     </Provider>
   );
