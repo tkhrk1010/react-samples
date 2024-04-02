@@ -34,7 +34,7 @@ const gqlWebSocketClient = graphqlWS.createClient({
 
 const client = new GraphQLClient(API_URL, {
   headers: {
-    "x-hasura-role": "public",
+    "x-hasura-role": "admin",
   },
 });
 
