@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    volumes:
+      - .:/app
+      # volume mount先を変えることで、directory上にnode_modulesが現れないようにする
+      # volume mountできると同時に、docker volumeを削除したら、node_modulesも消えてくれる
+      - node_modules:/app/node_modules
+    command: node server.js
+
+# 全てのコンテナが共有する
+volumes:
+  # 他のprojectでも、node_modulesという名前のvolumeを指定したら、それが使われる
+  node_modules:
